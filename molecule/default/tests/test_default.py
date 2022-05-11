@@ -12,7 +12,12 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 ).get_hosts("all")
 
 
-@pytest.mark.parametrize("x", [True])
-def test_packages(host, x):
-    """Run a dummy test, just to show what one would look like."""
-    assert x
+@pytest.mark.parametrize("f", ["/etc/ssh/sshd_config.d/99-allow-rsakeys.conf"])
+def test_files(host, f):
+    """Verify that all expected files indeed exist."""
+    ff = host.file(f)
+    assert ff.exists
+    assert ff.is_file
+    assert ff.user == "root"
+    assert ff.group == "root"
+    assert ff.mode == 0o644

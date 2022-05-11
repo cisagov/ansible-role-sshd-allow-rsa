@@ -4,3 +4,13 @@
 
 - name: Import python playbook
   ansible.builtin.import_playbook: python.yml
+
+# Any host where we run this role will already have sshd installed.
+- hosts: all
+  name: Install sshd
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Install sshd
+      ansible.builtin.package:
+        name: openssh-server

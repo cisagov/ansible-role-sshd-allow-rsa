@@ -1,2 +1,29 @@
 ---
-# tasks file for skeleton
+- name: Ensure that a directory for sshd config fragments exists
+  ansible.builtin.file:
+    group: root
+    mode: 0755
+    owner: root
+    path: /etc/ssh/sshd_config.d
+    state: directory
+
+- name: >
+    Make sure that sshd_config includes the files in the fragments
+    directory
+  ansible.builtin.lineinfile:
+    firstmatch: yes
+    # The Include directive must go at the top of the config file, so
+    # we want to place the line before the first non-comment line.
+    insertbefore: ^[^#\n]
+    line: Include /etc/ssh/sshd_config.d/*.conf
+    path: /etc/ssh/sshd_config
+
+- name: Modify sshd's configuration to allow RSA keys
+  ansible.builtin.copy:
+    content: |
+      HostKeyAlgorithms +ssh-rsa
+      PubkeyAcceptedAlgorithms +ssh-rsa
+    dest: /etc/ssh/sshd_config.d/99-allow-rsakeys.conf
+    group: root
+    mode: 0644
+    owner: root
