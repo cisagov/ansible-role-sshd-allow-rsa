@@ -21,3 +21,35 @@ def test_files(host, f):
     assert ff.user == "root"
     assert ff.group == "root"
     assert ff.mode == 0o644
+
+
+def test_file_content(host):
+    """Verify that all file contains the expected content."""
+    ff = host.file("/etc/ssh/sshd_config.d/99-allow-rsakeys.conf")
+
+    if host.system_info.distribution in ["amzn"]:
+        # OpenSSH pre-8.5
+        assert ff.contains("^PubkeyAcceptedKeyTypes")
+    elif host.system_info.distribution in ["debian"]:
+        if host.system_info.codename in ["stretch", "buster", "bullseye"]:
+            # OpenSSH pre-8.5
+            assert ff.contains("^PubkeyAcceptedKeyTypes")
+        elif host.system_info.codename in ["bookworm"]:
+            # OpenSSH 8.5+
+            assert ff.contains("^PubkeyAcceptedAlgorithms")
+        else:
+            assert False, f"Unknown Debian codename {host.system_info.codename}"
+    elif host.system_info.distribution in ["ubuntu"]:
+        if host.system_info.codename in ["bionic", "focal"]:
+            # OpenSSH pre-8.5
+            assert ff.contains("^PubkeyAcceptedKeyTypes")
+        elif host.system_info.codename in ["bookworm"]:
+            # OpenSSH 8.5+
+            assert ff.contains("^PubkeyAcceptedAlgorithms")
+        else:
+            assert False, f"Unknown Ubuntu codename {host.system_info.codename}"
+    elif host.system_info.distribution in ["fedora", "kali"]:
+        # OpenSSH 8.5+
+        assert ff.contains("^PubkeyAcceptedAlgorithms")
+    else:
+        assert False, f"Unknown distribution {host.system_info.distribution}"

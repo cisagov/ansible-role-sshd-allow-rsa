@@ -1,4 +1,15 @@
 ---
+- name: Determine the version of OpenSSH
+  ansible.builtin.command:
+    cmd: ssh -V
+  changed_when: false
+  register: ssh_version
+
+- name: Set facts for OpenSSH and OpenSSL versions
+  ansible.builtin.set_fact:
+    openssh_version: "{{ ssh_version.stderr | regex_search('^OpenSSH_([^,]*)p.*, OpenSSL ([^\ ]*)  .+$', '\\1') | first }}"
+    openssl_version: "{{ ssh_version.stderr | regex_search('^OpenSSH_([^,]*)p.*, OpenSSL ([^\ ]*)  .+$', '\\2') | first }}"
+
 - name: Ensure that a directory for sshd config fragments exists
   ansible.builtin.file:
     group: root
@@ -19,11 +30,24 @@
     path: /etc/ssh/sshd_config
 
 - name: Modify sshd's configuration to allow RSA keys
-  ansible.builtin.copy:
-    content: |
-      HostKeyAlgorithms +ssh-rsa
-      PubkeyAcceptedAlgorithms +ssh-rsa
-    dest: /etc/ssh/sshd_config.d/99-allow-rsakeys.conf
-    group: root
-    mode: 0644
-    owner: root
+  block:
+    - name: Allow RSA keys (OpenSSH < 8.5)
+      ansible.builtin.copy:
+        content: |
+          HostKeyAlgorithms +ssh-rsa
+          PubkeyAcceptedKeyTypes +ssh-rsa
+        dest: /etc/ssh/sshd_config.d/99-allow-rsakeys.conf
+        group: root
+        mode: 0644
+        owner: root
+      when: openssh_version is version("8.5", "<")
+    - name: Allow RSA keys (OpenSSH >= 8.5)
+      ansible.builtin.copy:
+        content: |
+          HostKeyAlgorithms +ssh-rsa
+          PubkeyAcceptedAlgorithms +ssh-rsa
+        dest: /etc/ssh/sshd_config.d/99-allow-rsakeys.conf
+        group: root
+        mode: 0644
+        owner: root
+      when: openssh_version is version("8.5", ">=")
