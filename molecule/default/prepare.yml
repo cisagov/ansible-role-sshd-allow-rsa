@@ -4,3 +4,32 @@
 
 - name: Import python playbook
   ansible.builtin.import_playbook: python.yml
+
+# Any host where we run this role will already have ssh and sshd
+# installed.
+- name: Group hosts by OS distribution
+  hosts: all
+  tasks:
+    - name: Group hosts by OS family
+      ansible.builtin.group_by:
+        key: os_{{ ansible_os_family }}
+- hosts: os_RedHat
+  name: Install ssh and sshd
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Install ssh and sshd
+      ansible.builtin.package:
+        name:
+          - openssh-clients
+          - openssh-server
+- hosts: os_Debian
+  name: Install ssh and sshd
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Install ssh and sshd
+      ansible.builtin.package:
+        name:
+          - openssh-client
+          - openssh-server
