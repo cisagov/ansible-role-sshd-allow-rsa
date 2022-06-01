@@ -24,7 +24,7 @@ def test_files(host, f):
 
 
 def test_file_content(host):
-    """Verify that all file contains the expected content."""
+    """Verify that the file contains the expected content."""
     ff = host.file("/etc/ssh/sshd_config.d/99-allow-rsakeys.conf")
 
     if host.system_info.distribution in ["amzn"]:
