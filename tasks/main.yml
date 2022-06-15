@@ -7,8 +7,8 @@
 
 - name: Set facts for OpenSSH and OpenSSL versions
   ansible.builtin.set_fact:
-    openssh_version: "{{ ssh_version.stderr | regex_search('^OpenSSH_([^,]*)p.*, OpenSSL ([^\ ]*)  .+$', '\\1') | first }}"
-    openssl_version: "{{ ssh_version.stderr | regex_search('^OpenSSH_([^,]*)p.*, OpenSSL ([^\ ]*)  .+$', '\\2') | first }}"
+    openssh_version: "{{ ssh_version.stderr | regex_search('^OpenSSH_([^,]*)p.*, OpenSSL ([^\ ]*)\ +.+$', '\\1') | first }}"
+    openssl_version: "{{ ssh_version.stderr | regex_search('^OpenSSH_([^,]*)p.*, OpenSSL ([^\ ]*)\ +.+$', '\\2') | first }}"
 
 - name: Ensure that a directory for sshd config fragments exists
   ansible.builtin.file:
