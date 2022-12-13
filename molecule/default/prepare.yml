@@ -2,9 +2,6 @@
 - name: Import upgrade playbook
   ansible.builtin.import_playbook: upgrade.yml
 
-- name: Import python playbook
-  ansible.builtin.import_playbook: python.yml
-
 # Any host where we run this role will already have ssh and sshd
 # installed.
 - name: Group hosts by OS distribution
