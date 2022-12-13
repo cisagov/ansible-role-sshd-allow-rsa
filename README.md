@@ -1,8 +1,7 @@
 # ansible-role-sshd-allow-rsa #
 
 [![GitHub Build Status](https://github.com/cisagov/ansible-role-sshd-allow-rsa/workflows/build/badge.svg)](https://github.com/cisagov/ansible-role-sshd-allow-rsa/actions)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/cisagov/ansible-role-sshd-allow-rsa.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/ansible-role-sshd-allow-rsa/alerts/)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/cisagov/ansible-role-sshd-allow-rsa.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/ansible-role-sshd-allow-rsa/context:python)
+[![CodeQL](https://github.com/cisagov/ansible-role-sshd-allow-rsa/workflows/CodeQL/badge.svg)](https://github.com/cisagov/ansible-role-sshd-allow-rsa/actions/workflows/codeql-analysis.yml)
 
 This Ansible role configures sshd to allow RSA keys.
 
@@ -33,8 +32,10 @@ Here's how to use it in a playbook:
 - hosts: all
   become: yes
   become_method: sudo
-  roles:
-    - sshd_allow_rsa
+  tasks:
+    - name: Allow RSA keys for ssh
+      ansible.builtin.include_role:
+        name: sshd_allow_rsa
 ```
 
 ## Contributing ##
