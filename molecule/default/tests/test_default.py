@@ -43,6 +43,9 @@ def test_file_content(host):
         if host.system_info.codename in ["bionic", "focal"]:
             # OpenSSH pre-8.5
             assert ff.contains("^PubkeyAcceptedKeyTypes")
+        elif host.system_info.codename in ["jammy"]:
+            # OpenSSH 8.5+
+            assert ff.contains("^PubkeyAcceptedAlgorithms")
         else:
             assert False, f"Unknown Ubuntu codename {host.system_info.codename}"
     elif host.system_info.distribution in ["fedora", "kali"]:
