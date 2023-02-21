@@ -1,8 +1,9 @@
 ---
+dependencies: []
 galaxy_info:
   author: Shane Frasier
-  description: Configure sshd to allow RSA keys
   company: CISA Cyber Assessments
+  description: Configure sshd to allow RSA keys
   galaxy_tags:
     - rsa
     - sshd
@@ -29,7 +30,6 @@ galaxy_info:
         - bookworm
     - name: Fedora
       versions:
-        - "35"
         - "36"
         - "37"
     - name: Ubuntu
@@ -38,5 +38,3 @@ galaxy_info:
         - focal
         - jammy
   role_name: sshd_allow_rsa
-
-dependencies: []
