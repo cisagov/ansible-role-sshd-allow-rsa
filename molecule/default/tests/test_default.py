@@ -27,10 +27,7 @@ def test_file_content(host):
     """Verify that the file contains the expected content."""
     ff = host.file("/etc/ssh/sshd_config.d/99-allow-rsakeys.conf")
 
-    if host.system_info.distribution in ["amzn"]:
-        # OpenSSH pre-8.5
-        assert ff.contains("^PubkeyAcceptedKeyTypes")
-    elif host.system_info.distribution in ["debian"]:
+    if host.system_info.distribution in ["debian"]:
         if host.system_info.codename in ["stretch", "buster", "bullseye"]:
             # OpenSSH pre-8.5
             assert ff.contains("^PubkeyAcceptedKeyTypes")
@@ -48,7 +45,7 @@ def test_file_content(host):
             assert ff.contains("^PubkeyAcceptedAlgorithms")
         else:
             assert False, f"Unknown Ubuntu codename {host.system_info.codename}"
-    elif host.system_info.distribution in ["fedora", "kali"]:
+    elif host.system_info.distribution in ["amzn", "fedora", "kali"]:
         # OpenSSH 8.5+
         assert ff.contains("^PubkeyAcceptedAlgorithms")
     else:
