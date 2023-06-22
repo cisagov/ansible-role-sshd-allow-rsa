@@ -13,7 +13,7 @@
 - hosts: os_RedHat
   name: Install ssh and sshd
   become: yes
-  become_method: sudo
+  become_method: ansible.builtin.sudo
   tasks:
     - name: Install ssh and sshd
       ansible.builtin.package:
@@ -23,7 +23,7 @@
 - hosts: os_Debian
   name: Install ssh and sshd
   become: yes
-  become_method: sudo
+  become_method: ansible.builtin.sudo
   tasks:
     - name: Install ssh and sshd
       ansible.builtin.package:
