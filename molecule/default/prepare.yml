@@ -10,8 +10,8 @@
     - name: Group hosts by OS family
       ansible.builtin.group_by:
         key: os_{{ ansible_os_family }}
-- hosts: os_RedHat
-  name: Install ssh and sshd
+- name: Install ssh and sshd
+  hosts: os_RedHat
   become: yes
   become_method: ansible.builtin.sudo
   tasks:
@@ -20,8 +20,8 @@
         name:
           - openssh-clients
           - openssh-server
-- hosts: os_Debian
-  name: Install ssh and sshd
+- name: Install ssh and sshd
+  hosts: os_Debian
   become: yes
   become_method: ansible.builtin.sudo
   tasks:
