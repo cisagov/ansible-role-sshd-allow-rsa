@@ -31,7 +31,7 @@ def test_file_content(host):
         if host.system_info.codename in ["buster", "bullseye"]:
             # OpenSSH pre-8.5
             assert ff.contains("^PubkeyAcceptedKeyTypes")
-        elif host.system_info.codename in ["bookworm"]:
+        elif host.system_info.codename in ["bookworm", "trixie"]:
             # OpenSSH 8.5+
             assert ff.contains("^PubkeyAcceptedAlgorithms")
         else:
