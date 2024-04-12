@@ -12,7 +12,7 @@
         key: os_{{ ansible_os_family }}
 - name: Install ssh and sshd
   hosts: os_RedHat
-  become: yes
+  become: true
   become_method: ansible.builtin.sudo
   tasks:
     - name: Install ssh and sshd
@@ -22,7 +22,7 @@
           - openssh-server
 - name: Install ssh and sshd
   hosts: os_Debian
-  become: yes
+  become: true
   become_method: ansible.builtin.sudo
   tasks:
     - name: Install ssh and sshd
