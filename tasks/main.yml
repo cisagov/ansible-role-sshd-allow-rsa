@@ -22,7 +22,7 @@
     Make sure that sshd_config includes the files in the fragments
     directory
   ansible.builtin.lineinfile:
-    firstmatch: yes
+    firstmatch: true
     # The Include directive must go at the top of the config file, so
     # we want to place the line before the first non-comment line.
     insertbefore: ^[^#\n]
