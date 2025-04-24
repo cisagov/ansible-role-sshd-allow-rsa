@@ -13,7 +13,7 @@
 - name: Ensure that a directory for sshd config fragments exists
   ansible.builtin.file:
     group: root
-    mode: 0755
+    mode: u=rwx,g=rx,o=rx
     owner: root
     path: /etc/ssh/sshd_config.d
     state: directory
@@ -38,7 +38,7 @@
           PubkeyAcceptedKeyTypes +ssh-rsa
         dest: /etc/ssh/sshd_config.d/99-allow-rsakeys.conf
         group: root
-        mode: 0644
+        mode: u=rw,g=r,o=r
         owner: root
       when: openssh_version is version("8.5", "<")
     - name: Allow RSA keys (OpenSSH >= 8.5)
@@ -48,6 +48,6 @@
           PubkeyAcceptedAlgorithms +ssh-rsa
         dest: /etc/ssh/sshd_config.d/99-allow-rsakeys.conf
         group: root
-        mode: 0644
+        mode: u=rw,g=r,o=r
         owner: root
       when: openssh_version is version("8.5", ">=")
