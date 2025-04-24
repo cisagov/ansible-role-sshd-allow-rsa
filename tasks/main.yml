@@ -7,7 +7,12 @@
 
 - name: Set facts for OpenSSH and OpenSSL versions
   ansible.builtin.set_fact:
+    # yamllint complains about these long lines, but there is no clean
+    # way to shorten them.
+    #
+    # yamllint disable-line rule:line-length
     openssh_version: "{{ ssh_version.stderr | regex_search('^OpenSSH_([^,]*)p.*, OpenSSL ([^\ ]*).*$', '\\1') | first }}"
+    # yamllint disable-line rule:line-length
     openssl_version: "{{ ssh_version.stderr | regex_search('^OpenSSH_([^,]*)p.*, OpenSSL ([^\ ]*).*$', '\\2') | first }}"
 
 - name: Ensure that a directory for sshd config fragments exists
