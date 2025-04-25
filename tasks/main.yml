@@ -7,13 +7,18 @@
 
 - name: Set facts for OpenSSH and OpenSSL versions
   ansible.builtin.set_fact:
+    # yamllint complains about these long lines, but there is no clean
+    # way to shorten them.
+    #
+    # yamllint disable-line rule:line-length
     openssh_version: "{{ ssh_version.stderr | regex_search('^OpenSSH_([^,]*)p.*, OpenSSL ([^\ ]*).*$', '\\1') | first }}"
+    # yamllint disable-line rule:line-length
     openssl_version: "{{ ssh_version.stderr | regex_search('^OpenSSH_([^,]*)p.*, OpenSSL ([^\ ]*).*$', '\\2') | first }}"
 
 - name: Ensure that a directory for sshd config fragments exists
   ansible.builtin.file:
     group: root
-    mode: 0755
+    mode: u=rwx,g=rx,o=rx
     owner: root
     path: /etc/ssh/sshd_config.d
     state: directory
@@ -38,7 +43,7 @@
           PubkeyAcceptedKeyTypes +ssh-rsa
         dest: /etc/ssh/sshd_config.d/99-allow-rsakeys.conf
         group: root
-        mode: 0644
+        mode: u=rw,g=r,o=r
         owner: root
       when: openssh_version is version("8.5", "<")
     - name: Allow RSA keys (OpenSSH >= 8.5)
@@ -48,6 +53,6 @@
           PubkeyAcceptedAlgorithms +ssh-rsa
         dest: /etc/ssh/sshd_config.d/99-allow-rsakeys.conf
         group: root
-        mode: 0644
+        mode: u=rw,g=r,o=r
         owner: root
       when: openssh_version is version("8.5", ">=")
