@@ -1,6 +1,7 @@
 # ansible-role-sshd-allow-rsa #
 
 [![GitHub Build Status](https://github.com/cisagov/ansible-role-sshd-allow-rsa/workflows/build/badge.svg)](https://github.com/cisagov/ansible-role-sshd-allow-rsa/actions)
+[![License](https://img.shields.io/github/license/cisagov/ansible-role-sshd-allow-rsa)](https://spdx.org/licenses/)
 [![CodeQL](https://github.com/cisagov/ansible-role-sshd-allow-rsa/workflows/CodeQL/badge.svg)](https://github.com/cisagov/ansible-role-sshd-allow-rsa/actions/workflows/codeql-analysis.yml)
 
 This Ansible role configures sshd to allow RSA keys.
