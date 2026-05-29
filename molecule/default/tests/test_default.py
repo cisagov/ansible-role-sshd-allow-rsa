@@ -35,7 +35,7 @@ def test_file_content(host):
             # OpenSSH 8.5+
             assert ff.contains("^PubkeyAcceptedAlgorithms")
         else:
-            assert False, f"Unknown Debian codename {host.system_info.codename}"
+            raise ValueError(f"Unknown Debian codename {host.system_info.codename}")
     elif host.system_info.distribution in ["ubuntu"]:
         if host.system_info.codename in ["focal"]:
             # OpenSSH pre-8.5
@@ -44,9 +44,9 @@ def test_file_content(host):
             # OpenSSH 8.5+
             assert ff.contains("^PubkeyAcceptedAlgorithms")
         else:
-            assert False, f"Unknown Ubuntu codename {host.system_info.codename}"
+            raise ValueError(f"Unknown Ubuntu codename {host.system_info.codename}")
     elif host.system_info.distribution in ["amzn", "fedora", "kali"]:
         # OpenSSH 8.5+
         assert ff.contains("^PubkeyAcceptedAlgorithms")
     else:
-        assert False, f"Unknown distribution {host.system_info.distribution}"
+        raise ValueError(f"Unknown distribution {host.system_info.distribution}")
